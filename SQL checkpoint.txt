@@ -1,0 +1,48 @@
+CREATE DATABASE CONTROLE
+USE CONTROLE;
+
+CREATE TABLE Clients (
+    CustomerID INT PRIMARY KEY,
+    Prenom VARCHAR(50) NOT NULL,
+    NomDeFamille VARCHAR(50) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    Telephone VARCHAR(15) NOT NULL,
+    Adresse VARCHAR(150) NOT NULL,
+    Ville VARCHAR(50) NOT NULL,
+    Etat VARCHAR(50) NOT NULL,
+    CodePostal VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE Categories (
+    CategoryID INT PRIMARY KEY,
+    NomDeCategorie VARCHAR(50) NOT NULL,
+    Description TEXT NOT NULL
+);
+
+CREATE TABLE Produits (
+    ProductID INT PRIMARY KEY,
+    NomDuProduit VARCHAR(100) NOT NULL,
+    Description TEXT NOT NULL,
+    Prix DECIMAL(10, 2) NOT NULL,
+    QuantiteEnStock INT NOT NULL,
+    CategoryID INT NOT NULL,
+    FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
+);
+
+CREATE TABLE Ordres (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT NOT NULL,
+    DateDeCommande DATE NOT NULL,
+    MontantTotal DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (CustomerID) REFERENCES Clients(CustomerID)
+);
+
+CREATE TABLE DétailsDeCommande (
+    OrderDetailID INT PRIMARY KEY,
+    OrderID INT NOT NULL,
+    ProductID INT NOT NULL,
+    Quantite INT NOT NULL,
+    PrixUnitaire DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (OrderID) REFERENCES Ordres(OrderID),
+    FOREIGN KEY (ProductID) REFERENCES Produits(ProductID)
+);
