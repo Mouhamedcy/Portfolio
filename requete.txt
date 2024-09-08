@@ -1,0 +1,99 @@
+-- 1. Récupérer tous les produits
+SELECT * FROM Products;
+
+-- 2. Récupérer tous les clients
+SELECT * FROM Customers;
+
+-- 3. Récupérer toutes les commandes
+SELECT * FROM Orders;
+
+-- 4. Récupérer tous les détails de commande
+SELECT * FROM OrderDetails;
+
+-- 5. Récupérer tous les types de produits
+SELECT * FROM ProductTypes;
+
+-- 6. Récupérer les noms des produits qui ont été commandés par au moins un client, ainsi que la quantité totale de chaque produit commandé
+SELECT P.ProductName, SUM(OD.Quantity) AS TotalQuantity
+FROM Products P
+JOIN OrderDetails OD ON P.ProductID = OD.ProductID
+GROUP BY P.ProductName
+HAVING SUM(OD.Quantity) > 0;
+
+-- 7. Récupérer les noms des clients qui ont passé une commande chaque jour de la semaine, ainsi que le nombre total de commandes passées par chaque client
+SELECT C.CustomerName, COUNT(O.OrderID) AS TotalOrders
+FROM Customers C
+JOIN Orders O ON C.CustomerID = O.CustomerID
+GROUP BY C.CustomerName
+HAVING COUNT(DISTINCT O.OrderDate) = 7; -- Supposant 7 jours dans une semaine
+
+-- 8. Récupérer les noms des clients qui ont passé le plus de commandes, ainsi que le nombre total de commandes passées par chaque client
+SELECT C.CustomerName, COUNT(O.OrderID) AS TotalOrders
+FROM Customers C
+JOIN Orders O ON C.CustomerID = O.CustomerID
+GROUP BY C.CustomerName
+ORDER BY TotalOrders DESC
+LIMIT 1; -- Modifier LIMIT si vous souhaitez plus d'un client
+
+-- 9. Récupérer les noms des produits qui ont été commandés le plus, ainsi que la quantité totale de chaque produit commandé
+SELECT P.ProductName, SUM(OD.Quantity) AS TotalQuantity
+FROM Products P
+JOIN OrderDetails OD ON P.ProductID = OD.ProductID
+GROUP BY P.ProductName
+ORDER BY TotalQuantity DESC;
+
+-- 10. Récupérer les noms des clients qui ont passé une commande pour au moins un produit Widget
+SELECT DISTINCT C.CustomerName
+FROM Customers C
+JOIN Orders O ON C.CustomerID = O.CustomerID
+JOIN OrderDetails OD ON O.OrderID = OD.OrderID
+JOIN Products P ON OD.ProductID = P.ProductID
+WHERE P.ProductType = 'Widget';
+
+-- 11. Récupérer les noms des clients qui ont passé une commande pour au moins un produit Widget et au moins un Gadget, ainsi que le coût total des Widgets et Gadgets commandés par chaque client
+SELECT C.CustomerName, SUM(OD.Quantity * P.Price) AS TotalCost
+FROM Customers C
+JOIN Orders O ON C.CustomerID = O.CustomerID
+JOIN OrderDetails OD ON O.OrderID = OD.OrderID
+JOIN Products P ON OD.ProductID = P.ProductID
+WHERE P.ProductType IN ('Widget', 'Gadget')
+GROUP BY C.CustomerName
+HAVING SUM(CASE WHEN P.ProductType = 'Widget' THEN OD.Quantity ELSE 0 END) > 0
+   AND SUM(CASE WHEN P.ProductType = 'Gadget' THEN OD.Quantity ELSE 0 END) > 0;
+
+-- 12. Récupérer les noms des clients qui ont passé une commande pour au moins un Gadget, ainsi que le coût total des Gadgets commandés par chaque client
+SELECT C.CustomerName, SUM(OD.Quantity * P.Price) AS TotalCost
+FROM Customers C
+JOIN Orders O ON C.CustomerID = O.CustomerID
+JOIN OrderDetails OD ON O.OrderID = OD.OrderID
+JOIN Products P ON OD.ProductID = P.ProductID
+WHERE P.ProductType = 'Gadget'
+GROUP BY C.CustomerName;
+
+-- 13. Récupérer les noms des clients qui ont passé une commande pour au moins un Doohickey, ainsi que le coût total des Doohickeys commandés par chaque client
+SELECT C.CustomerName, SUM(OD.Quantity * P.Price) AS TotalCost
+FROM Customers C
+JOIN Orders O ON C.CustomerID = O.CustomerID
+JOIN OrderDetails OD ON O.OrderID = OD.OrderID
+JOIN Products P ON OD.ProductID = P.ProductID
+WHERE P.ProductType = 'Doohickey'
+GROUP BY C.CustomerName;
+
+-- 14. Récupérer les noms des clients qui ont passé une commande chaque jour de la semaine, ainsi que le nombre total de commandes passées par chaque client (duplique de 7)
+-- Ceci est un duplicata de la requête 7
+SELECT C.CustomerName, COUNT(O.OrderID) AS TotalOrders
+FROM Customers C
+JOIN Orders O ON C.CustomerID = O.CustomerID
+GROUP BY C.CustomerName
+HAVING COUNT(DISTINCT O.OrderDate) = 7; -- Supposant 7 jours dans une semaine
+
+-- 15. Récupérer le nombre total de Widgets et Gadgets commandés par chaque client, ainsi que le coût total des commandes
+SELECT C.CustomerName, 
+       SUM(CASE WHEN P.ProductType IN ('Widget', 'Gadget') THEN OD.Quantity ELSE 0 END) AS TotalQuantity,
+       SUM(OD.Quantity * P.Price) AS TotalCost
+FROM Customers C
+JOIN Orders O ON C.CustomerID = O.CustomerID
+JOIN OrderDetails OD ON O.OrderID = OD.OrderID
+JOIN Products P ON OD.ProductID = P.ProductID
+WHERE P.ProductType IN ('Widget', 'Gadget')
+GROUP BY C.CustomerName;
