@@ -1,0 +1,129 @@
+CREATE DATABASE SGBDR;
+Use SGBDR;
+
+-- Création des tables
+CREATE TABLE producer (
+    NumP INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Region VARCHAR(50)
+);
+
+CREATE TABLE wine (
+    NumW INT PRIMARY KEY,
+    Category VARCHAR(50),
+    Year INT,
+    Degree FLOAT
+);
+
+CREATE TABLE harvest (
+    NumW INT,
+    NumP INT,
+    Quantity INT,
+    FOREIGN KEY (NumW) REFERENCES wine(NumW),
+    FOREIGN KEY (NumP) REFERENCES producer(NumP)
+);
+
+-- Insertion des données dans la table wine
+INSERT INTO wine (NumW, Category, Year, Degree) VALUES
+(1, 'Rouge', 2019, 13.5),
+(2, 'Blanc', 2020, 12.0),
+(3, 'Rose', 2018, 11.5),
+(4, 'Red', 2021, 14.0),
+(5, 'Sparkling', 2017, 10.5),
+(6, 'Blanc', 2019, 12.5),
+(7, 'Rouge', 2022, 13.0),
+(8, 'Rose', 2020, 11.0),
+(9, 'Rouge', 2018, 12.0),
+(10, 'Sparkling', 2019, 10.0),
+(11, 'Blanc', 2021, 11.5),
+(12, 'Rouge', 2022, 15.0);
+
+-- Insertion des données dans la table producer
+INSERT INTO producer (NumP, FirstName, LastName, Region) VALUES
+(1, 'John', 'Smith', 'Sousse'),
+(2, 'Emma', 'Johnson', 'Tunis'),
+(3, 'Michael', 'Williams', 'Sfax'),
+(4, 'Emily', 'Brown', 'Sousse'),
+(5, 'James', 'Jones', 'Sousse'),
+(6, 'Sarah', 'Davis', 'Tunis'),
+(7, 'David', 'Miller', 'Sfax'),
+(8, 'Olivia', 'Wilson', 'Monastir'),
+(9, 'Daniel', 'Moore', 'Sousse'),
+(10, 'Sophia', 'Taylor', 'Tunis'),
+(11, 'Matthieu', 'Anderson', 'Sfax'),
+(12, 'Amélia', 'Thomas', 'Sousse');
+
+-- Insertion des données dans la table harvest
+INSERT INTO harvest (NumW, NumP, Quantity) VALUES
+(1, 1, 300),
+(2, 2, 200),
+(3, 3, 150),
+(4, 4, 350),
+(5, 5, 400),
+(6, 6, 250),
+(7, 7, 500),
+(8, 8, 300),
+(9, 9, 450),
+(10, 10, 100),
+(11, 11, 600),
+(12, 12, 200);
+
+-- Requêtes SQL
+
+-- 1. Récupérer une liste de tous les producteurs
+SELECT * FROM producer;
+
+-- 2. Récupérer une liste triée de producteurs par nom
+SELECT * FROM producer ORDER BY LastName;
+
+-- 3. Récupérer une liste de producteurs de Sousse
+SELECT * FROM producer WHERE Region = 'Sousse';
+
+-- 4. Calculer la quantité totale de vin produite avec le numéro de vin 12
+SELECT SUM(Quantity) FROM harvest WHERE NumW = 12;
+
+-- 5. Calculer la quantité de vin produite pour chaque catégorie
+SELECT w.Category, SUM(h.Quantity) AS TotalQuantity
+FROM wine w
+JOIN harvest h ON w.NumW = h.NumW
+GROUP BY w.Category;
+
+-- 6. Retrouver les producteurs de la région de Sousse ayant récolté au moins un vin en quantité supérieure à 300 litres
+SELECT DISTINCT p.FirstName, p.LastName
+FROM producer p
+JOIN harvest h ON p.NumP = h.NumP
+WHERE p.Region = 'Sousse' AND h.Quantity > 300
+ORDER BY p.LastName;
+
+-- 7. Citer les numéros de vins avec un degré supérieur à 12, produits par le producteur numéro 24
+SELECT w.NumW
+FROM wine w
+JOIN harvest h ON w.NumW = h.NumW
+WHERE w.Degree > 12 AND h.NumP = 24;
+
+-- 8. Trouver le producteur qui a produit la plus grande quantité de vin
+SELECT p.FirstName, p.LastName, SUM(h.Quantity) AS TotalQuantity
+FROM producer p
+JOIN harvest h ON p.NumP = h.NumP
+GROUP BY p.NumP
+ORDER BY TotalQuantity DESC
+LIMIT 1;
+
+-- 9. Trouver le degré moyen de vin produit
+SELECT AVG(Degree) AS AverageDegree FROM wine;
+
+-- 10. Trouver le vin le plus ancien de la base de données
+SELECT * FROM wine ORDER BY Year ASC LIMIT 1;
+
+-- 11. Récupérer une liste de producteurs ainsi que la quantité totale de vin qu'ils ont produite
+SELECT p.FirstName, p.LastName, SUM(h.Quantity) AS TotalQuantity
+FROM producer p
+JOIN harvest h ON p.NumP = h.NumP
+GROUP BY p.NumP;
+
+-- 12. Récupérer une liste de vins ainsi que les coordonnées de leurs producteurs
+SELECT w.NumW, w.Category, p.FirstName, p.LastName, p.Region
+FROM wine w
+JOIN harvest h ON w.NumW = h.NumW
+JOIN producer p ON h.NumP = p.NumP;
