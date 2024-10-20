@@ -19,7 +19,7 @@ questions = [
         "options": ["A) Victor Hugo", "B) William Shakespeare", "C) Charles Dickens", "D) Molière"],
         "answer": "B"
     },
-    # Ajoutez d'autres questions ici
+   
 ]
 
 class QuizApp:
