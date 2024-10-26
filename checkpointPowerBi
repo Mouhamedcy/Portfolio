@@ -1,0 +1,56 @@
+1. SSIS (SQL Server Integration Services)
+SSIS est un outil d'extraction, de transformation et de chargement (ETL) qui permet de déplacer et transformer des données à partir de différentes sources.
+
+Fonctions et Utilisations :
+
+Intégration de données : Facilite l'importation de données de diverses sources (bases de données, fichiers plats, services web).
+Transformation de données : Permet de nettoyer, enrichir et transformer les données avant leur chargement dans des systèmes cibles.
+Automatisation des flux de travail : Automatisation des processus d'intégration de données via des packages SSIS.
+2. SSAS (SQL Server Analysis Services)
+SSAS est un outil de modélisation et d’analyse qui permet de créer des cubes OLAP et des modèles de données en mémoire.
+
+Fonctions et Utilisations :
+
+Analyse multidimensionnelle : Supporte l'analyse des données via des cubes OLAP, facilitant les requêtes complexes.
+Modèles tabulaires : Permet de créer des modèles de données en mémoire pour des performances améliorées sur des volumes importants de données.
+Calculs avancés : Utilise le langage DAX (Data Analysis Expressions) pour des calculs et des analyses approfondis.
+3. SSRS (SQL Server Reporting Services)
+SSRS est un système de génération de rapports qui permet de créer, déployer et gérer des rapports.
+
+Fonctions et Utilisations :
+
+Création de rapports : Permet de concevoir des rapports statiques et interactifs à partir de diverses sources de données.
+Distribution de rapports : Facilite la distribution et la planification de l'envoi de rapports par e-mail ou via un portail web.
+Reporting dynamique : Supporte des fonctionnalités de filtrage dynamique et de paramètres pour une personnalisation des rapports.
+4. Suite Power BI
+Power BI est une suite d'outils d'analyse de données qui permet de visualiser des données et de partager des insights au sein de l'organisation.
+
+Fonctions et Utilisations :
+
+Visualisation de données : Offre une large gamme de visualisations interactives pour explorer les données.
+Partage et collaboration : Permet de partager des tableaux de bord et des rapports avec d'autres utilisateurs via le cloud.
+Intégration : S'intègre facilement avec d'autres services Microsoft et plusieurs sources de données tierces.
+5. Power BI Desktop
+Power BI Desktop est une application de bureau qui permet aux utilisateurs de créer des rapports et des tableaux de bord.
+
+Fonctions et Utilisations :
+
+Création de rapports : Permet de concevoir des rapports interactifs en utilisant une interface drag-and-drop.
+Modélisation des données : Offre des outils pour nettoyer et transformer les données avant de les visualiser.
+Visualisations personnalisées : Supporte l'ajout de visualisations personnalisées pour répondre à des besoins spécifiques.
+6. Services Power BI
+Les Services Power BI font référence à la version cloud de Power BI, qui permet la publication et le partage de rapports.
+
+Fonctions et Utilisations :
+
+Hébergement de rapports : Permet de publier et d'héberger des rapports créés dans Power BI Desktop.
+Collaboration : Facilite la collaboration entre les utilisateurs grâce à des fonctionnalités de commentaires et d'alertes.
+Mise à jour automatique : Permet de configurer des mises à jour automatiques des données à partir des sources connectées.
+7. Power BI Mobile
+Power BI Mobile est une application qui permet d'accéder aux rapports et tableaux de bord sur des appareils mobiles.
+
+Fonctions et Utilisations :
+
+Accessibilité : Permet aux utilisateurs d'accéder aux données et rapports en déplacement.
+Notifications : Envoie des alertes et notifications lorsque des données changent ou atteignent des seuils définis.
+Interactivité : Offre des fonctionnalités interactives pour explorer les visualisations sur mobile.
